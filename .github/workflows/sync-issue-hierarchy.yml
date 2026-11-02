@@ -1,4 +1,5 @@
 name: Establish native EPIC, Feature, and User Story hierarchy
+# This workflow is restricted to Little Ask and only establishes planned issue nesting.
 
 on:
   push:
