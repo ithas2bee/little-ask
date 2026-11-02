@@ -1,6 +1,6 @@
 # GitHub Copilot Instructions: Little Ask
 
-Copilot and coding agents must follow the repository-wide rules in `/AGENTS.md`.
+Copilot and coding agents must follow the repository-wide rules in `AGENTS.md`.
 
 Before proposing or implementing changes, consult the relevant documentation under `docs/project-design/` and `docs/development/`.
 
