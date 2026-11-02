@@ -1,0 +1,123 @@
+name: User Story
+description: Create a small, independently implementable story for an agent.
+title: "[STORY] "
+labels:
+  - user-story
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keep one story focused on one coherent outcome. Include implementation context and measurable acceptance criteria. The Assign to Agent section is mandatory because it is the execution contract for the coding agent.
+  - type: input
+    id: parent-feature
+    attributes:
+      label: Parent Feature
+      description: Enter the Feature issue number and link.
+      placeholder: "#24 - Domain Foundation"
+    validations:
+      required: true
+  - type: input
+    id: parent-epic
+    attributes:
+      label: Parent EPIC
+      description: Enter the EPIC issue number and link.
+      placeholder: "#12 - Backend Foundation"
+    validations:
+      required: true
+  - type: textarea
+    id: story
+    attributes:
+      label: User story
+      description: Use the format As a [user/system], I want [capability], so that [value].
+      placeholder: As a developer, I want explicit domain entities so that business rules have a stable foundation.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Background and context
+      description: Explain why this story exists and provide the necessary product/technical context.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: List exactly what this story must implement.
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: Explicitly list adjacent work that must not be included.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Use observable, testable checkboxes. Avoid vague criteria such as "works correctly."
+      value: |
+        - [ ] 
+        - [ ] 
+        - [ ] 
+    validations:
+      required: true
+  - type: textarea
+    id: technical
+    attributes:
+      label: Technical guidance
+      description: Identify affected project/module/layers, relevant contracts, data rules, and architectural constraints. Do not prescribe unnecessary implementation details.
+    validations:
+      required: true
+  - type: textarea
+    id: tests
+    attributes:
+      label: Testing and verification
+      description: Specify expected unit, integration, widget, API, build, or manual verification.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: Documentation and dependencies
+      description: Link relevant project documentation, ADRs, related issues, and prerequisite stories.
+    validations:
+      required: false
+  - type: textarea
+    id: agent-prompt
+    attributes:
+      label: Assign to Agent
+      description: Paste the complete agent execution prompt. Include repository instructions, files to inspect, implementation expectations, scope boundaries, acceptance criteria, tests, and required completion report.
+      value: |
+        You are implementing this user story in the Little Ask repository.
+
+        Before making changes:
+        1. Read /AGENTS.md and .github/copilot-instructions.md.
+        2. Read the referenced product and architecture documentation.
+        3. Inspect the existing code and tests.
+        4. Confirm the task is understood and identify any blocking ambiguity.
+
+        Implementation requirements:
+        - Implement only the scope defined in this story.
+        - Follow the documented feature-first and clean architecture boundaries.
+        - Keep classes, methods, and files cohesive and maintainable.
+        - Preserve child privacy, family authorization, and the product's child-first, two-way interaction model.
+        - Do not add out-of-scope features or unrelated refactoring.
+        - Add or update tests for the behavior being implemented.
+        - Run relevant formatters, analyzers, tests, and build checks.
+        - Do not commit secrets or weaken security controls.
+
+        Completion report:
+        - Summarize the behavior implemented.
+        - List changed files and why each changed.
+        - Map implementation evidence to every acceptance criterion.
+        - List exact verification commands and results.
+        - Identify tests/checks not run and explain why.
+        - Document assumptions, risks, and remaining work.
+        - Confirm whether scope was maintained.
+
+        If requirements conflict with project documentation or introduce a child-safety, privacy, or security concern, stop and request clarification instead of guessing.
+    validations:
+      required: true
