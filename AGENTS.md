@@ -47,16 +47,17 @@ Do not assume that a user story contains all product or technical context. The p
 
 For each assigned user story:
 
-1. Read the parent Feature and EPIC, the story's acceptance criteria, and its **Assign to Agent** instructions.
-2. Read the relevant product and architecture documents.
-3. Inspect the existing code and tests before making changes.
-4. Identify the smallest coherent implementation that satisfies the story.
-5. Do not silently expand scope or implement adjacent stories.
-6. If requirements conflict, are incomplete, or create a security/privacy concern, stop and report the issue instead of inventing product behavior.
-7. Implement the code and appropriate tests.
-8. Run relevant formatting, static analysis, unit, integration, and/or build checks available for the changed area.
-9. Review the diff for unrelated edits, generated noise, secrets, and accidental scope expansion.
-10. Report exactly what changed, what commands were run, their outcomes, and any remaining limitations.
+1. Read the parent Feature and EPIC and the story's acceptance criteria.
+2. Use the separate **Assign to Agent** prompt provided by the product owner when the story is selected for implementation.
+3. Read the relevant product and architecture documents.
+4. Inspect the existing code and tests before making changes.
+5. Identify the smallest coherent implementation that satisfies the story.
+6. Do not silently expand scope or implement adjacent stories.
+7. If requirements conflict, are incomplete, or create a security/privacy concern, stop and report the issue instead of inventing product behavior.
+8. Implement the code and appropriate tests.
+9. Run relevant formatting, static analysis, unit, integration, and/or build checks available for the changed area.
+10. Review the diff for unrelated edits, generated noise, secrets, and accidental scope expansion.
+11. Report exactly what changed, what commands were run, their outcomes, and any remaining limitations.
 
 A story is not complete merely because code was written. Acceptance criteria must be addressed and verification evidence must be provided.
 
