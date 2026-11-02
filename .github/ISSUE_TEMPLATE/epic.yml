@@ -1,8 +1,6 @@
 name: EPIC
 description: Create a major development theme for Little Ask.
 title: "[EPIC] "
-labels:
-  - epic
 body:
   - type: markdown
     attributes:
