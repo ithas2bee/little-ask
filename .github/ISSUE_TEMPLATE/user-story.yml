@@ -1,11 +1,11 @@
 name: User Story
-description: Create a small, independently implementable story for an agent.
+description: Define a small, independently implementable unit of work under a Feature.
 title: "[STORY] "
 body:
   - type: markdown
     attributes:
       value: |
-        Keep one story focused on one coherent outcome. Include implementation context and measurable acceptance criteria. The Assign to Agent section is mandatory because it is the execution contract for the coding agent.
+        Keep one story focused on one coherent outcome. This template is for planning only. Agent assignment instructions are written separately when the product owner is ready to implement this specific story.
   - type: input
     id: parent-feature
     attributes:
@@ -83,8 +83,7 @@ body:
       description: Link relevant project documentation, ADRs, related issues, and prerequisite stories.
     validations:
       required: false
-  - type: textarea
-    id: agent-prompt
+
     attributes:
       label: Assign to Agent
       description: Paste the complete agent execution prompt. Include repository instructions, files to inspect, implementation expectations, scope boundaries, acceptance criteria, tests, and required completion report.
