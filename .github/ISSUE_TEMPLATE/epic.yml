@@ -1,0 +1,71 @@
+name: EPIC
+description: Create a major development theme for Little Ask.
+title: "[EPIC] "
+labels:
+  - epic
+body:
+  - type: markdown
+    attributes:
+      value: |
+        EPICs represent major areas of work such as Backend, Mobile Frontend, Identity and Family Setup, or Notifications. Keep the EPIC outcome-focused. Break it into Features rather than implementation tasks.
+  - type: input
+    id: objective
+    attributes:
+      label: EPIC objective
+      description: What major outcome or capability area does this EPIC establish?
+      placeholder: Establish the backend foundation for Little Ask.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Purpose and problem
+      description: Why is this EPIC necessary? What product or technical need does it address?
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: Describe what belongs inside this EPIC.
+    validations:
+      required: true
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope
+      description: List related work that must remain outside this EPIC.
+    validations:
+      required: false
+  - type: textarea
+    id: features
+    attributes:
+      label: Features
+      description: List the Features that belong to this EPIC. Link each Feature issue after it is created.
+      placeholder: |
+        - [ ] Feature: Domain Foundation
+        - [ ] Feature: Data Persistence
+        - [ ] Feature: API Foundation
+    validations:
+      required: true
+  - type: textarea
+    id: architecture
+    attributes:
+      label: Architecture and documentation references
+      description: Link relevant architecture decisions, project documents, constraints, or diagrams.
+    validations:
+      required: false
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies and risks
+      description: Identify external dependencies, sequencing constraints, privacy/security considerations, and risks.
+    validations:
+      required: false
+  - type: textarea
+    id: completion
+    attributes:
+      label: EPIC completion criteria
+      description: What must be true for this major theme to be considered complete?
+    validations:
+      required: true
