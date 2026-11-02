@@ -1,8 +1,6 @@
 name: Feature
 description: Define a product or technical capability within an EPIC.
 title: "[FEATURE] "
-labels:
-  - feature
 body:
   - type: markdown
     attributes:
