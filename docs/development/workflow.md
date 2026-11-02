@@ -72,7 +72,9 @@ The prompt should not contradict the story or project documentation. If requirem
 
 ## 5. Suggested labels
 
-Create and use these labels:
+Labels are an optional organizing layer and are not required for the issue forms to work. The templates intentionally do not pre-apply labels, so they work in a repository where labels have not yet been configured. Create these labels in GitHub Settings → Issues → Labels when you are ready:
+
+
 - `epic`
 - `feature`
 - `user-story`
