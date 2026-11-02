@@ -77,55 +77,63 @@ state, and persistence.
 
 Use a feature-first modular structure, with clear internal layers.
 
-Suggested starting structure:
+The root `app.module.ts` composes implemented feature modules. Add each
+feature only when its capability is implemented; do not create placeholder
+modules or empty layer folders. The following example illustrates the
+shape of one feature and does not describe files that currently exist:
 
 ``` text
 backend/
   src/
     main.ts
     app.module.ts
-    common/
-      guards/
-      filters/
-      pipes/
-      errors/
     modules/
-      identity/
-        presentation/
-        application/
-        domain/
-        infrastructure/
-      family/
-        presentation/
-        application/
-        domain/
-        infrastructure/
       activity-requests/
+        activity-requests.module.ts
         presentation/
+          activity-requests.controller.ts
+          create-activity-request.dto.ts
         application/
+          create-activity-request.use-case.ts
+          ports/
+            activity-request.repository.ts
         domain/
+          activity-request.ts
         infrastructure/
-      notifications/
-        application/
-        infrastructure/
-  test/
-  Dockerfile
-  package.json
 ```
 
-Do not create empty folders for hypothetical future features. Add a
-module when the corresponding capability is being implemented.
+This illustrative flow keeps the controller at the HTTP boundary: it
+accepts a validated DTO and delegates to the use case. The use case
+coordinates domain behavior through an application-owned repository port;
+an infrastructure adapter can implement that port. The feature module
+wires the controller, use case, and adapter using NestJS dependency
+injection. This example does not require implementing the request workflow
+or adding persistence.
 
 ### Layer responsibilities
 
 -   **Presentation:** Controllers, request/response DTOs, validation,
-    and HTTP concerns.
--   **Application:** Use cases, orchestration, transaction boundaries,
-    and ports/interfaces.
+    and HTTP concerns. Translate transport data and delegate; do not
+    contain business workflows.
+-   **Application:** Focused use cases, orchestration, transaction
+    boundaries, and ports/interfaces required by workflows.
 -   **Domain:** Entities, value objects, invariants, and business rules.
     Avoid framework dependencies here.
 -   **Infrastructure:** PostgreSQL repositories, ORM mappings, push
     provider adapters, and external integrations.
+
+Dependencies point inward toward the domain: presentation may depend on
+application, application may depend on domain and its own ports, and
+infrastructure implements application ports using domain concepts. The
+feature module is the composition point that wires these components;
+domain code does not depend on NestJS, HTTP, persistence, or provider
+frameworks. Avoid importing another feature's internal layers; introduce
+a shared boundary only when a real cross-feature need exists.
+
+Use kebab-case feature directories and filenames, PascalCase TypeScript
+types, and descriptive role suffixes such as `.module.ts`,
+`.controller.ts`, `.dto.ts`, and `.use-case.ts`. Name use cases after
+their action and domain types after the business concept.
 
 NestJS modules organize the application, but should not become a reason
 to put all business logic in controllers or providers with unrelated
