@@ -1,0 +1,70 @@
+name: Feature
+description: Define a product or technical capability within an EPIC.
+title: "[FEATURE] "
+labels:
+  - feature
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A Feature describes a cohesive capability. Every Feature must belong to an EPIC. Break the Feature into small, independently implementable User Stories.
+  - type: input
+    id: parent-epic
+    attributes:
+      label: Parent EPIC
+      description: Enter the EPIC issue number and link.
+      placeholder: "#12 - Backend Foundation"
+    validations:
+      required: true
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Feature purpose
+      description: What capability will this Feature deliver, and why does it matter?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected behavior
+      description: Describe the capability from the product or system perspective.
+    validations:
+      required: true
+  - type: textarea
+    id: stories
+    attributes:
+      label: User Stories
+      description: List the small stories required to deliver this Feature. Link the issues after creation.
+      placeholder: |
+        - [ ] User Story: Define core domain entities
+        - [ ] User Story: Define request lifecycle
+    validations:
+      required: true
+  - type: textarea
+    id: requirements
+    attributes:
+      label: Requirements and acceptance boundaries
+      description: Relevant functional/non-functional requirements, business rules, and explicit boundaries.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: Other Features, stories, decisions, or external dependencies.
+    validations:
+      required: false
+  - type: textarea
+    id: references
+    attributes:
+      label: Documentation references
+      description: Link the relevant files under docs/project-design and docs/development.
+    validations:
+      required: false
+  - type: textarea
+    id: completion
+    attributes:
+      label: Feature completion criteria
+      description: Describe the observable result when all stories under this Feature are complete.
+    validations:
+      required: true
