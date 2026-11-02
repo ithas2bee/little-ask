@@ -1,8 +1,6 @@
 name: User Story
 description: Create a small, independently implementable story for an agent.
 title: "[STORY] "
-labels:
-  - user-story
 body:
   - type: markdown
     attributes:
