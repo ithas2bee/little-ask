@@ -16,6 +16,48 @@ features or layer folders before implementing a capability.
 
 ## Local development
 
+### PostgreSQL
+
+From the repository root, create a local environment file and start the database:
+
+```sh
+cp .env.example .env
+docker compose up -d db
+docker compose ps
+```
+
+Compose reports the service as healthy when PostgreSQL accepts connections.
+The database is available from the host at `localhost` on `POSTGRES_PORT`
+(`5432` by default), using `POSTGRES_DB`, `POSTGRES_USER`, and
+`POSTGRES_PASSWORD` from `.env`. For example, with the supplied local values:
+
+```text
+postgresql://little_ask_dev:local-development-only@localhost:5432/little_ask_dev
+```
+
+The password in `.env.example` is only a local placeholder; do not use it or
+other development credentials outside local development. `.env` is ignored by
+Git. The backend does not yet connect to PostgreSQL; this service is for local
+database development.
+
+Stop the service while keeping its data:
+
+```sh
+docker compose down
+```
+
+To reset the database and delete all its data:
+
+```sh
+docker compose down --volumes
+docker compose up -d db
+```
+
+The volume removal is destructive. Flutter continues to run through its normal
+Flutter toolchain and is not part of Docker Compose.
+
+### Backend API
+
 From the repository root:
 
 ```sh
