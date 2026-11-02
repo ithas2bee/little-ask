@@ -2,103 +2,97 @@
 
 ## Purpose
 
-Little Ask work is planned and delivered through a consistent hierarchy:
+Little Ask work is organized as a real parent-child issue hierarchy:
 
 ```text
 EPIC
   └── Feature
         └── User Story
-              └── Assign to Agent prompt
 ```
 
-GitHub Issues do not provide native nested issue objects in every configuration. We represent hierarchy through explicit parent issue references in each Feature and User Story, and reciprocal links/checklists in the parent descriptions. Use GitHub Projects or issue relationships as an optional visualization layer, not as the only record of parentage.
+Use GitHub's native **sub-issues** relationships to establish the hierarchy. Labels identify the issue type (`epic`, `feature`, or `user story`), but labels alone do not establish parentage. Each Feature must be a sub-issue of exactly one EPIC, and each User Story must be a sub-issue of exactly one Feature.
 
 ## 1. EPIC
 
-An EPIC represents a major development theme or strategic area, for example:
-- Backend Foundation
-- Mobile Application Foundation
-- Identity and Family Setup
-- Notifications and Delivery
+An EPIC represents the grand idea or major development theme, such as Backend Development, Mobile Application, or Identity and Family Setup.
 
-An EPIC explains the objective, boundaries, dependencies, and completion criteria. It lists the Features that deliver the theme.
+An EPIC defines:
+- The overall objective and why the theme exists.
+- Major scope boundaries.
+- Dependencies and risks.
+- High-level completion criteria.
+- The Features that live inside it.
 
-An EPIC should not be a catch-all task list and should not contain implementation-level acceptance criteria for every story.
+An EPIC is not a collection of implementation tasks. Its Features are children of the EPIC.
 
 ## 2. Feature
 
-A Feature represents a cohesive capability within one EPIC.
+A Feature is a distinct capability that belongs inside an EPIC.
 
-Examples under Backend Foundation:
-- Domain Foundation
-- Data Persistence
-- API Foundation
+A Feature defines:
+- The capability it delivers.
+- Expected product/system behavior.
+- Scope and boundaries.
+- Dependencies and requirements.
+- Completion criteria.
+- The User Stories that implement it.
 
-A Feature describes expected behavior/capability and lists the User Stories needed to deliver it. Each Feature must identify its parent EPIC.
+Features must be created as native sub-issues of their parent EPIC. Do not create Features as independent siblings of User Stories.
 
 ## 3. User Story
 
-A User Story is the smallest planned unit of agent implementation that delivers a coherent, testable outcome.
+A User Story is a small, focused unit of work that belongs inside one Feature.
 
 Use the format:
 
 > As a [user or system role], I want [capability], so that [value].
 
-Each story must include:
-- Parent Feature and parent EPIC references.
-- Background/context.
-- In-scope and out-of-scope boundaries.
+Each User Story includes:
+- Its parent Feature (established through the native sub-issue relationship).
+- Background and context.
+- Scope and explicit out-of-scope boundaries.
 - Testable acceptance criteria.
 - Technical guidance and architectural constraints.
-- Verification expectations.
+- Testing and verification expectations.
 - Relevant documentation and dependencies.
-- A complete **Assign to Agent** prompt.
 
-Avoid combining unrelated changes into one story. Create separate stories when work can be implemented, reviewed, or tested independently.
+User Stories are planning artifacts. **Do not include an Assign to Agent prompt when creating a User Story.**
 
-## 4. Assign to Agent prompt
+Keep stories small enough to implement, review, and test independently. Avoid combining unrelated changes into one story.
 
-The prompt is the execution contract for the coding agent. It must tell the agent to:
-- Read repository-wide instructions and relevant design documentation.
-- Inspect existing implementation before editing.
-- Implement only the story's scope.
-- Follow documented architecture and coding standards.
-- Preserve privacy, security, and child-safety boundaries.
-- Add or update tests.
-- Run relevant verification.
-- Report files changed, acceptance-criteria coverage, commands/results, assumptions, and remaining work.
+## 4. Assign to Agent (implementation stage only)
 
-The prompt should not contradict the story or project documentation. If requirements are unclear or conflicting, the agent must ask for clarification rather than invent product behavior.
+The Assign to Agent prompt is created separately, only after the product owner selects a specific User Story for implementation.
 
-## 5. Suggested labels
+At that point, the prompt should provide the coding agent with:
+- Repository-wide instructions and relevant project documents to read.
+- The exact User Story and acceptance criteria.
+- Files/modules or architecture boundaries relevant to the work.
+- Implementation constraints and explicit exclusions.
+- Required tests and verification commands.
+- Required completion report format.
 
-Labels are an optional organizing layer and are not required for the issue forms to work. The templates intentionally do not pre-apply labels, so they work in a repository where labels have not yet been configured. Create these labels in GitHub Settings → Issues → Labels when you are ready:
+The prompt must not silently expand the User Story. If requirements are ambiguous or conflict with product/architecture documentation, the agent must ask for clarification.
 
+## 5. Labels
 
+Use the repository's issue-type labels:
 - `epic`
 - `feature`
-- `user-story`
-- `backend`
-- `mobile`
-- `architecture`
-- `security`
-- `privacy`
-- `documentation`
-- `bug`
-- `blocked`
+- `user story`
 
-Hierarchy labels identify the issue type. Area labels identify affected concerns. Use both where appropriate.
+Use area labels such as backend, mobile, architecture, security, privacy, and documentation when they add useful filtering. A label is classification, not hierarchy.
 
-## 6. Work execution lifecycle
+## 6. Work planning and execution lifecycle
 
-1. Product owner defines or approves an EPIC.
-2. Product owner defines Features under that EPIC.
-3. Each Feature is decomposed into small User Stories.
-4. Product owner reviews the story and its Assign to Agent prompt.
-5. Agent implements the assigned story and provides a completion report.
-6. Product owner reviews the diff and test evidence.
-7. Changes are pulled and tested locally on target environments/devices as appropriate.
-8. Feedback is recorded, and the story is closed only after acceptance.
+1. Product owner defines an EPIC.
+2. Features are created as native sub-issues inside that EPIC.
+3. User Stories are created as native sub-issues inside their Feature.
+4. Product owner reviews the planned hierarchy, scope, and acceptance criteria.
+5. When a particular story is ready for implementation, the product owner writes its Assign to Agent prompt and assigns the work.
+6. Agent implements only that story and reports files changed, acceptance criteria coverage, verification results, assumptions, and remaining work.
+7. Product owner reviews the changes, pulls them locally, and tests on target environments/devices.
+8. Feedback is recorded; the story is closed only after acceptance.
 
 ## 7. Definition of Done for a User Story
 
