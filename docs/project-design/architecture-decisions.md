@@ -105,7 +105,7 @@ developer environments.
 
 ## ADR-005: Use feature-first organization with clean architectural boundaries
 
-**Status:** Proposed
+**Status:** Accepted
 
 ### Context
 
