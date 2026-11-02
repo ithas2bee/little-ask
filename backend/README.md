@@ -24,7 +24,13 @@ npm install
 npm run start:dev
 ```
 
-The server listens on port `3000` by default. Set `PORT` to use another port.
+The server listens on port `3000` by default. Set `PORT` to use another port;
+it must be an integer from `1` to `65535`, or startup fails with a safe
+configuration error.
+
+Health checks are available at `GET /health/live` and `GET /health/ready`.
+Readiness reports application status and currently has no external dependency
+checks because the backend does not yet use external services.
 
 ## Project checks
 
