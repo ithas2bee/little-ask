@@ -130,13 +130,45 @@ boundaries keep business rules independent of UI and infrastructure.
 -   Review file and method size as maintainability signals, not rigid
     numeric laws.
 
+## ADR-006: Use Drizzle ORM and Drizzle Kit for PostgreSQL persistence
+
+**Status:** Accepted
+
+### Context
+
+The NestJS backend needs typed PostgreSQL data access, repeatable migrations,
+and a repository boundary without introducing persistence for all planned
+product concepts at once.
+
+### Decision
+
+Use Drizzle ORM with the `pg` node-postgres driver for database access, and
+Drizzle Kit to generate and apply SQL migrations. Keep repository interfaces
+in the application layer and PostgreSQL implementations and schema definitions
+in infrastructure.
+
+### Rationale
+
+-   Drizzle provides TypeScript-typed queries while keeping SQL concepts and
+    generated migration SQL explicit and reviewable.
+-   It is a smaller, SQL-oriented persistence layer than a full-featured ORM,
+    which fits the backend's limited current persistence needs.
+-   Drizzle Kit provides both migration generation from the schema and
+    repeatable migration application without a separate migration framework.
+
+### Consequences
+
+-   The team adopts the Drizzle schema/query APIs and migration conventions.
+-   Generated SQL migrations must be committed and reviewed with schema
+    changes; migrations, rather than ORM synchronization, change databases.
+-   The implementation remains PostgreSQL-specific through the `pg` driver.
+
 ## Open decisions
 
 -   Target child age range and legal/privacy implications.
 -   Identity provider and child account authentication model.
 -   Parent/guardian verification and family invitation flow.
 -   State management and routing packages for Flutter.
--   ORM/data access approach for NestJS and PostgreSQL.
 -   Push notification provider.
 -   Custom activity text in MVP.
 -   Hosting and production operations.

@@ -37,8 +37,36 @@ postgresql://little_ask_dev:local-development-only@localhost:5432/little_ask_dev
 
 The password in `.env.example` is only a local placeholder; do not use it or
 other development credentials outside local development. `.env` is ignored by
-Git. The backend does not yet connect to PostgreSQL; this service is for local
-database development.
+Git. The backend connects to PostgreSQL through Drizzle ORM and the `pg`
+driver. Its approach and tradeoffs are documented in
+[ADR-006](../docs/project-design/architecture-decisions.md#adr-006-use-drizzle-orm-and-drizzle-kit-for-postgresql-persistence).
+
+### Migrations and persistence
+
+From `backend/`, set `DATABASE_URL` to the host connection URL for the Compose
+database (`postgresql://<user>:<password>@localhost:<port>/<database>`). Then:
+
+```sh
+npm run db:generate -- --name=describe_change
+npm run db:migrate
+```
+
+`db:generate` creates a checked-in SQL migration under `backend/drizzle/`;
+`db:migrate` applies pending migrations and records them in PostgreSQL. To
+recreate the schema from scratch, reset the local database volume as described
+above, start the `db` service, and run `db:migrate`.
+
+The persistence-example feature demonstrates the application-owned repository
+port and its PostgreSQL adapter. It is an infrastructure proof only; it does
+not add product workflows or future domain tables.
+
+Run the PostgreSQL integration test after applying migrations:
+
+```sh
+DATABASE_URL="$DATABASE_URL" npm run test:integration
+```
+
+Without `DATABASE_URL`, the integration test is skipped by `npm test`.
 
 Stop the service while keeping its data:
 
