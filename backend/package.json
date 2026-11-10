@@ -12,7 +12,7 @@
     "start:dev": "tsx watch src/main.ts",
     "start:prod": "node dist/main.js",
     "test": "npm run build && node --test test/*.test.js",
-    "test:integration": "npm run build && node --test test/postgres-persistence.test.js",
+    "test:integration": "node test/require-database-url.js && npm run build && node --test test/postgres-persistence.test.js",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "engines": {
@@ -37,6 +37,7 @@
     "typescript-eslint": "^8.72.1"
   },
   "overrides": {
-    "minimatch": "^11.0.1"
+    "minimatch": "^11.0.1",
+    "esbuild": "^0.25.4"
   }
 }

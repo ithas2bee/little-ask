@@ -43,12 +43,27 @@ driver. Its approach and tradeoffs are documented in
 
 ### Migrations and persistence
 
-From `backend/`, set `DATABASE_URL` to the host connection URL for the Compose
-database (`postgresql://<user>:<password>@localhost:<port>/<database>`). Then:
+After starting the Compose database, open a shell in `backend/` and set
+`DATABASE_URL` to the Compose database connection URL. With the local values
+from `.env.example`, use the appropriate command below. Replace the values if
+you changed `.env`; these example credentials are for local development only.
 
-```sh
+PowerShell:
+
+```powershell
+$env:DATABASE_URL = "******localhost:5432/little_ask_dev"
 npm run db:generate -- --name=describe_change
 npm run db:migrate
+npm run test:integration
+```
+
+Bash:
+
+```bash
+export DATABASE_URL="******localhost:5432/little_ask_dev"
+npm run db:generate -- --name=describe_change
+npm run db:migrate
+npm run test:integration
 ```
 
 `db:generate` creates a checked-in SQL migration under `backend/drizzle/`;
@@ -56,17 +71,18 @@ npm run db:migrate
 recreate the schema from scratch, reset the local database volume as described
 above, start the `db` service, and run `db:migrate`.
 
+The `esbuild` override in `package.json` ensures that Drizzle Kit's transitive
+`@esbuild-kit/core-utils` dependency uses a patched esbuild release. Without the
+override, that dependency resolves to esbuild `0.24.2`, which is affected by
+[GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99).
+
 The persistence-example feature demonstrates the application-owned repository
 port and its PostgreSQL adapter. It is an infrastructure proof only; it does
 not add product workflows or future domain tables.
 
-Run the PostgreSQL integration test after applying migrations:
-
-```sh
-DATABASE_URL="$DATABASE_URL" npm run test:integration
-```
-
-Without `DATABASE_URL`, the integration test is skipped by `npm test`.
+`npm run test:integration` requires `DATABASE_URL` and fails with a clear
+message if it is missing. The regular `npm test` command may skip the
+integration test when `DATABASE_URL` is not set.
 
 Stop the service while keeping its data:
 
