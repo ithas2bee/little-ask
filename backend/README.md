@@ -37,8 +37,52 @@ postgresql://little_ask_dev:local-development-only@localhost:5432/little_ask_dev
 
 The password in `.env.example` is only a local placeholder; do not use it or
 other development credentials outside local development. `.env` is ignored by
-Git. The backend does not yet connect to PostgreSQL; this service is for local
-database development.
+Git. The backend connects to PostgreSQL through Drizzle ORM and the `pg`
+driver. Its approach and tradeoffs are documented in
+[ADR-006](../docs/project-design/architecture-decisions.md#adr-006-use-drizzle-orm-and-drizzle-kit-for-postgresql-persistence).
+
+### Migrations and persistence
+
+After starting the Compose database, open a shell in `backend/` and set
+`DATABASE_URL` to the Compose database connection URL. With the local values
+from `.env.example`, use the appropriate command below. Replace the values if
+you changed `.env`; these example credentials are for local development only.
+
+PowerShell:
+
+```powershell
+$env:DATABASE_URL = "******localhost:5432/little_ask_dev"
+npm run db:generate -- --name=describe_change
+npm run db:migrate
+npm run test:integration
+```
+
+Bash:
+
+```bash
+export DATABASE_URL="******localhost:5432/little_ask_dev"
+npm run db:generate -- --name=describe_change
+npm run db:migrate
+npm run test:integration
+```
+
+`db:generate` creates a checked-in SQL migration under `backend/drizzle/`;
+`db:migrate` applies pending migrations and records them in PostgreSQL. To
+recreate the schema from scratch, reset the local database volume as described
+above, start the `db` service, and run `db:migrate`.
+
+The `esbuild` override in `package.json` ensures that Drizzle Kit's transitive
+`@esbuild-kit/core-utils` dependency uses a patched esbuild release. Without the
+override, that dependency resolves to esbuild `0.24.2`, which is affected by
+[GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99).
+
+The persistence-example feature demonstrates the application-owned repository
+port and its PostgreSQL adapter. It is an infrastructure proof only; it does
+not add product workflows or future domain tables.
+
+`npm run test:integration` requires `DATABASE_URL` and fails with a clear
+message if it is missing. The regular `npm test` command may skip the
+integration test when `DATABASE_URL` is not set.
 
 Stop the service while keeping its data:
 
