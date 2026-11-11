@@ -118,6 +118,20 @@ Health checks are available at `GET /health/live` and `GET /health/ready`.
 Readiness reports application status and currently has no external dependency
 checks because the backend does not yet use external services.
 
+### Request validation
+
+The API configures a global NestJS `ValidationPipe` with transformation and
+whitelisting enabled. DTO fields must declare validation decorators. Unknown
+fields are rejected with a `400 Bad Request` rather than silently removed.
+Invalid or missing DTO fields also receive a `400 Bad Request`; this uses
+NestJS's default validation response and does not define a broader API error
+format.
+
+`POST /validation-example` is a focused boundary example, not a product
+workflow. It accepts a required positive integer `quantity` (including a
+numeric string, which is transformed to a number), rejects invalid or
+unexpected fields, and passes the validated value to an application use case.
+
 ## Project checks
 
 Run these commands from `backend/`:
