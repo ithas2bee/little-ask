@@ -123,9 +123,24 @@ checks because the backend does not yet use external services.
 The API configures a global NestJS `ValidationPipe` with transformation and
 whitelisting enabled. DTO fields must declare validation decorators. Unknown
 fields are rejected with a `400 Bad Request` rather than silently removed.
-Invalid or missing DTO fields also receive a `400 Bad Request`; this uses
-NestJS's default validation response and does not define a broader API error
-format.
+Invalid or missing DTO fields also receive a `400 Bad Request`.
+
+All API errors use the same JSON shape:
+
+```json
+{
+  "statusCode": 400,
+  "code": "VALIDATION_ERROR",
+  "message": "Request validation failed"
+}
+```
+
+`code` and `message` identify the error category without exposing exception
+details. Validation errors use `400` / `VALIDATION_ERROR`, missing resources
+use `404` / `NOT_FOUND`, and conflicts use `409` / `CONFLICT`. Other HTTP errors
+retain their HTTP status and use a generic response. Unexpected errors use
+`500` / `INTERNAL_SERVER_ERROR`. Error responses do not include exception
+messages, validation input, stack traces, or database details.
 
 `POST /validation-example` is a focused boundary example, not a product
 workflow. It accepts a required positive integer `quantity` (including a
