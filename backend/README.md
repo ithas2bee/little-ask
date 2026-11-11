@@ -1,7 +1,7 @@
 # Backend API
 
-The API is a minimal NestJS application. No feature modules or endpoints are
-implemented yet.
+The API is a NestJS application with health endpoints, a request-validation
+example endpoint, and a PostgreSQL persistence example.
 
 ## Backend organization
 
