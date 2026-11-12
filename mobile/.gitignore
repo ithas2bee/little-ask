@@ -6,6 +6,9 @@
 .pub/
 build/
 coverage/
+*.iml
+.idea/
+.DS_Store
 android/.gradle/
 android/local.properties
 ios/Flutter/Generated.xcconfig
