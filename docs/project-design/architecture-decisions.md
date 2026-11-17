@@ -163,12 +163,76 @@ in infrastructure.
     changes; migrations, rather than ORM synchronization, change databases.
 -   The implementation remains PostgreSQL-specific through the `pg` driver.
 
+## ADR-007: Use Flutter SDK primitives for initial UI state management
+
+**Status:** Accepted
+
+### Context
+
+The Flutter app needs a consistent state-management approach without
+introducing unnecessary architecture before MVP features exist. Riverpod
+was identified as a candidate, alongside Flutter's built-in local state
+and `ChangeNotifier`.
+
+### Decision
+
+Use `setState` for state private to one widget. Use Flutter's
+`ChangeNotifier` with `ListenableBuilder` for feature UI state that needs
+a separate controller or multiple listeners. Keep these controllers in
+each feature's `presentation/` layer. Keep workflows in `application/`,
+business rules in `domain/`, and data access in `data/`. Re-evaluate
+Riverpod when a real feature requires shared asynchronous state or
+injected dependencies across screens.
+
+### Alternatives considered
+
+-   **Flutter `setState`:** built in and appropriate for state used only
+    by one widget, but unsuitable when feature state needs a separate
+    controller or multiple listeners.
+-   **Flutter `ChangeNotifier` and `ListenableBuilder`:** built in,
+    testable, and sufficient for current feature UI state without an
+    external package. Their mutable state and manual lifecycle
+    management may need reconsideration as shared asynchronous state
+    grows.
+-   **Provider:** a familiar lightweight package based on
+    `ChangeNotifier`, but adds a dependency without a current need for
+    its provider wiring.
+-   **Riverpod:** provides explicit dependencies, scoped test overrides,
+    and support for asynchronous state, but adds a package and concepts
+    not yet justified by any implemented feature.
+
+### Rationale
+
+-   Flutter SDK primitives are sufficient for the current scaffold and
+    keep the dependency graph unchanged.
+-   A separately testable `ChangeNotifier` keeps state updates out of
+    widget rendering while retaining the simple Flutter lifecycle.
+-   The choice is deliberately modest and can be revisited before
+    adopting a package across real feature workflows.
+
+### Dependencies
+
+-   No additional packages. `ChangeNotifier` and `ListenableBuilder` are
+    provided by Flutter; `flutter_test` is already an SDK dev dependency.
+
+### Consequences
+
+-   Feature UI state uses presentation-layer controllers and can be
+    tested without rendering a full app.
+-   Domain code remains independent of Flutter and state-management
+    packages.
+-   State is owned and disposed by the presentation widget that creates
+    the controller; reassess this ownership if state becomes shared
+    across screens.
+-   The architecture-example counter is illustrative only; it is not a
+    Little Ask workflow.
+
 ## Open decisions
 
 -   Target child age range and legal/privacy implications.
 -   Identity provider and child account authentication model.
 -   Parent/guardian verification and family invitation flow.
--   State management and routing packages for Flutter.
+-   Routing package for Flutter.
 -   Push notification provider.
 -   Custom activity text in MVP.
 -   Hosting and production operations.
