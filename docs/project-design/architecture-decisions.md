@@ -232,7 +232,40 @@ injected dependencies across screens.
 -   Target child age range and legal/privacy implications.
 -   Identity provider and child account authentication model.
 -   Parent/guardian verification and family invitation flow.
--   Routing package for Flutter.
 -   Push notification provider.
 -   Custom activity text in MVP.
 -   Hosting and production operations.
+
+## ADR-008: Use Flutter SDK named routes initially
+
+**Status:** Accepted
+
+### Context
+
+The mobile app needs a consistent route convention, but currently has
+only a scaffold screen and no finalized authentication or role-selection
+flow.
+
+### Decision
+
+Use Flutter's built-in named routes, with route names and builders
+centralized in `mobile/lib/app/app_routes.dart`. Keep the initial `/`
+route mapped to the existing architecture-example counter as a clearly
+identified development placeholder. Do not treat it as an authentication
+or production home screen.
+
+### Rationale
+
+-   The current app needs only a shallow route table.
+-   Flutter's built-in routing avoids adding a dependency or abstraction
+    before nested navigation, deep links, or authentication guards are
+    required.
+-   Central route definitions keep screen widgets independent of global
+    navigation configuration.
+
+### Consequences
+
+-   Replace the development placeholder when the authentication and
+    role-aware entry flow is approved.
+-   Re-evaluate the routing approach if nested navigation, deep links, or
+    route guards become concrete requirements.

@@ -1,6 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 
-import '../features/architecture_example/presentation/counter_screen.dart';
+import 'app_routes.dart';
 import 'theme/app_theme.dart';
 
 class LittleAskApp extends StatelessWidget {
@@ -11,7 +11,8 @@ class LittleAskApp extends StatelessWidget {
     return MaterialApp(
       title: 'Little Ask',
       theme: AppTheme.light,
-      home: const CounterScreen(),
+      initialRoute: AppRoutes.initialRoute,
+      routes: AppRoutes.routes,
     );
   }
 }

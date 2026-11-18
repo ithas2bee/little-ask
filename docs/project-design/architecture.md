@@ -22,7 +22,7 @@ that protect business rules from UI and infrastructure details.
 -   **Dart** as the application language.
 -   State management solution to be selected and documented before
     implementation (evaluate Riverpod as the initial candidate).
--   Routing solution to be selected consistently.
+-   Use Flutter SDK named routes initially; see ADR-008.
 -   API client and serialization approach to be standardized.
 
 ### Backend
