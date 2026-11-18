@@ -6,8 +6,7 @@ abstract final class AppRoutes {
   static const developmentPlaceholder = '/';
   static const initialRoute = developmentPlaceholder;
 
-  static final Map<String, WidgetBuilder> routes =
-      Map.unmodifiable({
-        developmentPlaceholder: (_) => const CounterScreen(),
-      });
+  static final Map<String, WidgetBuilder> routes = Map.unmodifiable({
+    developmentPlaceholder: (_) => const CounterScreen(),
+  });
 }
