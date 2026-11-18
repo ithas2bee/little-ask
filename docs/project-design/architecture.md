@@ -141,55 +141,56 @@ responsibilities.
 
 ## 5. Flutter architecture
 
-Use feature-first organization with presentation, application/domain,
-and data boundaries. Keep widgets focused on rendering and user
-interaction.
+Organize the Flutter client by business feature. Keep screens and UI
+state in presentation, workflows in application, business rules in
+domain, and API/persistence adapters in data. Keep widgets focused on
+rendering and user interaction.
 
-Suggested starting structure:
+Use this structure as features are implemented; create layer folders
+only when they contain code:
 
 ``` text
 mobile/
   lib/
     app/
-      app.dart
-      routing/
-      theme/
-    core/
-      errors/
-      networking/
-      shared/
+      little_ask_app.dart
     features/
-      family/
-        presentation/
-        application/
-        domain/
-        data/
-      activity_requests/
-        presentation/
-        application/
-        domain/
-        data/
-      invitations/
+      <feature>/
         presentation/
         application/
         domain/
         data/
 ```
 
-The exact boundaries can be refined as features are implemented. Avoid
-premature abstractions and avoid putting the entire app into a generic
-`services` folder.
+`app/` is the composition point for app-wide configuration and wiring.
+`core/` is optional and only for code genuinely shared across features;
+do not use it as a generic services or models folder. Keep each feature's
+presentation, application, domain, and data code together. Use
+lower_snake_case for Dart directories and filenames. The
+`features/architecture_example/presentation/` counter in the current
+mobile scaffold demonstrates this convention; it is not a Little Ask
+product workflow.
 
 ### Layer responsibilities
 
--   **Presentation:** Screens, reusable widgets, and UI
-    state/controllers.
--   **Application:** Feature workflows and coordination of
-    domain/repository operations.
--   **Domain:** Core concepts and rules that should not depend on
-    Flutter or networking.
--   **Data:** API data sources, DTOs, mapping, and repository
-    implementations.
+-   **Presentation:** Screens, reusable widgets, navigation-facing UI,
+    and UI state/controllers. Translate user actions into application
+    calls; keep networking and business rules out of widgets.
+-   **Application:** Focused feature workflows and coordination of
+    domain behavior and repository ports. Define the interfaces required
+    by workflows here.
+-   **Domain:** Business concepts, invariants, and rules. Do not depend
+    on Flutter, state-management packages, HTTP, or persistence.
+-   **Data:** API/data sources, transport models and mapping, and
+    repository implementations for application ports.
+
+Dependencies point inward: presentation may depend on application and
+domain; application may depend on domain and its own ports; data may
+depend on application ports and domain. Application and domain must not
+depend on presentation or data implementations. `app/` may compose
+presentation and data implementations at the application boundary.
+Avoid cross-feature imports of internal layers; extract shared code only
+when a concrete need exists.
 
 ## 6. Initial domain concepts
 
