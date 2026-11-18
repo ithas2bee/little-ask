@@ -113,19 +113,17 @@ class RequestStatusColors extends ThemeExtension<RequestStatusColors> {
         t,
       )!,
       laterSuggested: Color.lerp(laterSuggested, other.laterSuggested, t)!,
-      laterSuggestedContainer:
-          Color.lerp(
-            laterSuggestedContainer,
-            other.laterSuggestedContainer,
-            t,
-          )!,
+      laterSuggestedContainer: Color.lerp(
+        laterSuggestedContainer,
+        other.laterSuggestedContainer,
+        t,
+      )!,
       maybeLater: Color.lerp(maybeLater, other.maybeLater, t)!,
-      maybeLaterContainer:
-          Color.lerp(
-            maybeLaterContainer,
-            other.maybeLaterContainer,
-            t,
-          )!,
+      maybeLaterContainer: Color.lerp(
+        maybeLaterContainer,
+        other.maybeLaterContainer,
+        t,
+      )!,
     );
   }
 }

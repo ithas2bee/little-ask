@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:little_ask/app/little_ask_app.dart';
 import 'package:little_ask/app/theme/app_theme.dart';
+import 'package:material_ui/material_ui.dart';
 
 void main() {
   testWidgets('app uses the shared light theme and semantic status colors', (
@@ -28,6 +28,10 @@ void main() {
 
     expect(style.minimumSize!.resolve(const {}), const Size(48, 48));
     expect(style.backgroundColor!.resolve(const {}), AppColors.primary);
+    expect(
+      style.backgroundColor!.resolve({WidgetState.pressed}),
+      AppColors.primaryPressed,
+    );
     expect(
       style.backgroundColor!.resolve({WidgetState.disabled}),
       AppColors.disabledSurface,
