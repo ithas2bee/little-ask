@@ -107,7 +107,28 @@ reference for the product direction. It is not a complete specification.
 Final screen layouts, typography, spacing, colors, and component
 behavior should be documented and validated as implementation proceeds.
 
-## 8. Design decisions to validate
+## 8. Initial mobile theme tokens
+
+The initial Flutter light theme translates the concept-board direction
+into reusable roles rather than prescribing individual screen layouts:
+
+- **Palette:** primary blue `#2B78B8`, soft pink `#FFB8CC`, sunshine
+  `#FFC94A`, warm background `#FFFCF8`, and deep navy text `#172B4D`.
+- **Typography:** platform system type with a defined Material text
+  hierarchy from 12 to 32 logical pixels; headings use stronger weights
+  and body text uses relaxed line spacing.
+- **Spacing:** a 4-point scale of 4, 8, 12, 16, 24, 32, and 48 logical
+  pixels.
+- **Shapes and controls:** 8, 16, and 24 logical-pixel corner radii,
+  rounded buttons with at least 48 logical pixels of height, and explicit
+  enabled, pressed, and disabled button colors.
+- **Request states:** pending uses warm gold, accepted uses soft green,
+  later-suggested uses soft blue, and maybe-later uses soft lavender;
+  each state pairs a readable foreground with its own soft container.
+
+These are shared starting tokens, not a selectable set of themes.
+
+## 9. Design decisions to validate
 
 -   Exact age range and corresponding reading level.
 -   Whether children can read independently or need parent-assisted
