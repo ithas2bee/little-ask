@@ -34,9 +34,8 @@ class _CounterScreenState extends State<CounterScreen> {
           children: [
             ListenableBuilder(
               listenable: _controller,
-              builder: (context, child) => Text(
-                'Counter: ${_controller.count}',
-              ),
+              builder: (context, child) =>
+                  Text('Counter: ${_controller.count}'),
             ),
             const SizedBox(height: 16),
             FilledButton(
