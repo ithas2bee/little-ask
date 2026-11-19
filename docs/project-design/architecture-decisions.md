@@ -236,36 +236,39 @@ injected dependencies across screens.
 -   Custom activity text in MVP.
 -   Hosting and production operations.
 
-## ADR-008: Use Flutter SDK named routes initially
+## ADR-008: Use `go_router` for mobile navigation
 
 **Status:** Accepted
 
 ### Context
 
-The mobile app needs a consistent route convention, but currently has
-only a scaffold screen and no finalized authentication or role-selection
-flow.
+The mobile app needs centralized route definitions that can grow with
+parent and child experiences. The current scaffold has only one screen,
+and authentication and role-selection flows are not finalized.
 
 ### Decision
 
-Use Flutter's built-in named routes, with route names and builders
-centralized in `mobile/lib/app/app_routes.dart`. Keep the initial `/`
-route mapped to the existing architecture-example counter as a clearly
-identified development placeholder. Do not treat it as an authentication
-or production home screen.
+Use `go_router` for navigation, with route paths and configuration
+centralized in `mobile/lib/app/app_router.dart`; screens must not own
+global routing configuration. Configure `LittleAskApp` with
+`MaterialApp.router`. Keep `/` mapped to the existing architecture-example
+counter as a clearly identified development placeholder, not an
+authentication or production home screen.
 
 ### Rationale
 
--   The current app needs only a shallow route table.
--   Flutter's built-in routing avoids adding a dependency or abstraction
-    before nested navigation, deep links, or authentication guards are
-    required.
--   Central route definitions keep screen widgets independent of global
-    navigation configuration.
+-   `go_router` provides declarative route configuration and supports
+    future nested routes and deep links as parent and child experiences
+    are added.
+-   The centralized configuration keeps route paths out of screen
+    widgets and makes navigation behavior directly testable.
 
 ### Consequences
 
--   Replace the development placeholder when the authentication and
-    role-aware entry flow is approved.
--   Re-evaluate the routing approach if nested navigation, deep links, or
-    route guards become concrete requirements.
+-   `go_router` is a direct mobile dependency.
+-   Add parent and child routes to the centralized router when their
+    screens are implemented; do not introduce placeholder product
+    screens or role redirects before those flows are approved.
+-   Revisit route guards when the authentication flow is defined.
+-   Keep the development placeholder only until the approved app entry
+    flow replaces it.
