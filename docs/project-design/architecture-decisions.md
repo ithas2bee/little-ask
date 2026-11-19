@@ -232,7 +232,43 @@ injected dependencies across screens.
 -   Target child age range and legal/privacy implications.
 -   Identity provider and child account authentication model.
 -   Parent/guardian verification and family invitation flow.
--   Routing package for Flutter.
 -   Push notification provider.
 -   Custom activity text in MVP.
 -   Hosting and production operations.
+
+## ADR-008: Use `go_router` for mobile navigation
+
+**Status:** Accepted
+
+### Context
+
+The mobile app needs centralized route definitions that can grow with
+parent and child experiences. The current scaffold has only one screen,
+and authentication and role-selection flows are not finalized.
+
+### Decision
+
+Use `go_router` for navigation, with route paths and configuration
+centralized in `mobile/lib/app/app_router.dart`; screens must not own
+global routing configuration. Configure `LittleAskApp` with
+`MaterialApp.router`. Keep `/` mapped to the existing architecture-example
+counter as a clearly identified development placeholder, not an
+authentication or production home screen.
+
+### Rationale
+
+-   `go_router` provides declarative route configuration and supports
+    future nested routes and deep links as parent and child experiences
+    are added.
+-   The centralized configuration keeps route paths out of screen
+    widgets and makes navigation behavior directly testable.
+
+### Consequences
+
+-   `go_router` is a direct mobile dependency.
+-   Add parent and child routes to the centralized router when their
+    screens are implemented; do not introduce placeholder product
+    screens or role redirects before those flows are approved.
+-   Revisit route guards when the authentication flow is defined.
+-   Keep the development placeholder only until the approved app entry
+    flow replaces it.
