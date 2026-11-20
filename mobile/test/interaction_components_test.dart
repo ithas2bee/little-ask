@@ -38,24 +38,24 @@ void main() {
       greaterThanOrEqualTo(48),
     );
     expect(
-      tester.getSemantics(find.byType(PrimaryButton)).label,
-      'Send request',
+      tester.getSemantics(find.byType(PrimaryButton)),
+      matchesSemantics(
+        label: 'Send request',
+        isButton: true,
+        hasEnabledState: true,
+        isEnabled: true,
+        hasTapAction: true,
+      ),
     );
     expect(
-      tester.getSemantics(find.byType(SecondaryButton)).label,
-      'Maybe later',
-    );
-    expect(
-      tester
-          .getSemantics(find.byType(PrimaryButton))
-          .hasFlag(SemanticsFlag.isEnabled),
-      isTrue,
-    );
-    expect(
-      tester
-          .getSemantics(find.byType(PrimaryButton))
-          .hasAction(SemanticsAction.tap),
-      isTrue,
+      tester.getSemantics(find.byType(SecondaryButton)),
+      matchesSemantics(
+        label: 'Maybe later',
+        isButton: true,
+        hasEnabledState: true,
+        isEnabled: true,
+        hasTapAction: true,
+      ),
     );
 
     await tester.tap(find.byType(PrimaryButton));
@@ -82,11 +82,16 @@ void main() {
 
     final semantics = tester.getSemantics(find.byType(PrimaryButton));
 
-    expect(semantics.label, 'Send request');
-    expect(semantics.hasFlag(SemanticsFlag.isButton), isTrue);
-    expect(semantics.hasFlag(SemanticsFlag.hasEnabledState), isTrue);
-    expect(semantics.hasFlag(SemanticsFlag.isEnabled), isFalse);
-    expect(semantics.hasAction(SemanticsAction.tap), isFalse);
+    expect(
+      semantics,
+      matchesSemantics(
+        label: 'Send request',
+        isButton: true,
+        hasEnabledState: true,
+        isEnabled: false,
+        hasTapAction: false,
+      ),
+    );
   });
 
   testWidgets('selectable card reports and updates its selected state', (
@@ -114,9 +119,18 @@ void main() {
     );
 
     var semantics = tester.getSemantics(find.byType(SelectableCard));
-    expect(semantics.label, 'Play a game, Choose a board game');
-    expect(semantics.hasFlag(SemanticsFlag.isButton), isTrue);
-    expect(semantics.hasFlag(SemanticsFlag.isSelected), isFalse);
+    expect(
+      semantics,
+      matchesSemantics(
+        label: 'Play a game, Choose a board game',
+        isButton: true,
+        hasSelectedState: true,
+        isSelected: false,
+        hasEnabledState: true,
+        isEnabled: true,
+        hasTapAction: true,
+      ),
+    );
     expect(
       tester.getSize(find.byType(SelectableCard)).height,
       greaterThanOrEqualTo(48),
@@ -127,7 +141,18 @@ void main() {
 
     semantics = tester.getSemantics(find.byType(SelectableCard));
     expect(selected, isTrue);
-    expect(semantics.hasFlag(SemanticsFlag.isSelected), isTrue);
+    expect(
+      semantics,
+      matchesSemantics(
+        label: 'Play a game, Choose a board game',
+        isButton: true,
+        hasSelectedState: true,
+        isSelected: true,
+        hasEnabledState: true,
+        isEnabled: true,
+        hasTapAction: true,
+      ),
+    );
     expect(find.byIcon(Icons.check_circle), findsOneWidget);
   });
 
@@ -152,8 +177,17 @@ void main() {
 
     final semantics = tester.getSemantics(find.byType(SelectableCard));
 
-    expect(semantics.hasFlag(SemanticsFlag.hasEnabledState), isTrue);
-    expect(semantics.hasFlag(SemanticsFlag.isEnabled), isFalse);
-    expect(semantics.hasAction(SemanticsAction.tap), isFalse);
+    expect(
+      semantics,
+      matchesSemantics(
+        label: 'Choose a parent',
+        isButton: true,
+        hasSelectedState: true,
+        isSelected: false,
+        hasEnabledState: true,
+        isEnabled: false,
+        hasTapAction: false,
+      ),
+    );
   });
 }
