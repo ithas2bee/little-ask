@@ -15,4 +15,20 @@ void main() {
       AppRouter.developmentPlaceholderPath,
     );
   });
+
+  testWidgets('child and parent routes open their corresponding shells', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const LittleAskApp());
+
+    AppRouter.router.go(AppRouter.childHomePath);
+    await tester.pumpAndSettle();
+    expect(find.text('What would you like to do together?'), findsOneWidget);
+    expect(AppRouter.router.state.uri.path, AppRouter.childHomePath);
+
+    AppRouter.router.go(AppRouter.parentHomePath);
+    await tester.pumpAndSettle();
+    expect(find.text('Requests from your child'), findsOneWidget);
+    expect(AppRouter.router.state.uri.path, AppRouter.parentHomePath);
+  });
 }
