@@ -6,11 +6,7 @@ import '../../../app/widgets/interaction_components.dart';
 enum RoleShellState { loading, error, unknownRole, child, parent }
 
 class RoleShellScreen extends StatelessWidget {
-  const RoleShellScreen({
-    required this.state,
-    this.onRetry,
-    super.key,
-  });
+  const RoleShellScreen({required this.state, this.onRetry, super.key});
 
   final RoleShellState state;
   final VoidCallback? onRetry;
@@ -40,7 +36,10 @@ class ChildHomeShell extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('Hi there!', style: Theme.of(context).textTheme.headlineLarge),
+              Text(
+                'Hi there!',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
               const SizedBox(height: AppSpacing.sm),
               Text(
                 'What would you like to do together?',
@@ -151,9 +150,7 @@ class _LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(
-          semanticsLabel: 'Loading your home',
-        ),
+        child: CircularProgressIndicator(semanticsLabel: 'Loading your home'),
       ),
     );
   }
