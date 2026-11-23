@@ -229,9 +229,11 @@ injected dependencies across screens.
 
 ## Open decisions
 
--   Target child age range and legal/privacy implications.
--   Identity provider and child account authentication model.
--   Parent/guardian verification and family invitation flow.
+-   Target child age range, launch jurisdictions, and legal/privacy
+    implications; see ADR-009.
+-   Adult and child sign-in, session, verification, family-linking,
+    consent, device access, recovery, and retention decisions; see
+    ADR-009.
 -   Push notification provider.
 -   Custom activity text in MVP.
 -   Hosting and production operations.
@@ -272,3 +274,131 @@ authentication or production home screen.
 -   Revisit route guards when the authentication flow is defined.
 -   Keep the development placeholder only until the approved app entry
     flow replaces it.
+
+## ADR-009: Separate parent accounts from child profiles
+
+**Status:** Proposed; product-owner and qualified legal/privacy review required
+
+### Context
+
+Little Ask needs to identify the participants in a private family
+relationship, authorize both child-initiated requests and parent-initiated
+invitations, and support parent-mediated setup. The product requirements
+make authentication, approved relationships, data minimization, and
+server-side authorization release requirements. They do not set a target
+age range, require children to have independent credentials, or select a
+verification process or identity provider.
+
+This decision is consistent with [End Users](end-users.md),
+[Product and System Requirements](requirements.md),
+[MVP Scope](mvp-scope.md), [Use Cases](use-cases.md), and
+[Architecture](architecture.md). It documents a proposed direction, not
+an approved provider, legal interpretation, or final account policy.
+
+### Proposed recommendation
+
+- **Parent/guardian identity:** Each parent or guardian uses an adult
+  account with an independently authenticated identity. The account is
+  the adult's sign-in and session boundary. It can administer family
+  setup while authorized, but this application-level role does not
+  establish legal ownership of a child or prove guardianship.
+- **Child identity:** Represent a child initially as a child-facing
+  profile associated with one or more explicitly approved family
+  relationships, rather than assuming a standalone adult-style account.
+  Keep only the identifiers and profile information needed for those
+  relationships and request flows. Do not require a child's own email
+  address or phone number. This recommendation does not decide the
+  intended age range or rule out a separately approved child sign-in
+  model later.
+- **Parent sign-in and sessions:** Keep the authentication provider and
+  credential method open. The backend must establish the authenticated
+  adult principal, issue and revoke its sessions, and authorize protected
+  operations from server-side identity and relationship state. Never
+  accept a client-supplied role, sender, recipient, or relationship as
+  proof of authority. Session lifetime, re-authentication, and any
+  stronger authentication requirements remain to be decided.
+- **Child device access:** Prefer a child-specific, revocable app access
+  session scoped to the selected child profile and approved
+  relationships. Parent-authenticated setup may provision or restore
+  that access, but a child-facing session must not expose the parent's
+  authenticated session or adult account administration. Do not make a
+  child's personal email or phone a prerequisite. The backend must
+  validate the child's current relationship authorization for protected
+  requests. Device registration, multiple-device use, shared-device
+  switching, and offline behavior are not specified here.
+- **Verification and family linking:** Do not provide public discovery
+  of children or arbitrary adults. Family setup and linking should be
+  explicitly initiated and approved, with relationship state maintained
+  by the backend. A parent-created invitation or code may demonstrate
+  control of that invitation, but by itself does not prove adult status,
+  legal guardianship, or valid consent. The product and qualified
+  reviewers must select and approve what verification and consent are
+  appropriate before implementation or release.
+- **Consent, privacy, and recovery:** Collect the minimum data needed;
+  keep child information and requests private to authorized family
+  members; minimize sensitive lock-screen notification content; and
+  define deletion, retention, and recovery processes before public
+  release. Parent account recovery must not silently restore access to
+  child profiles or relationships without appropriate re-verification.
+  Provide a way to revoke lost or compromised sessions and child-device
+  access. Age-appropriate notice or child assent may be appropriate, but
+  its form and any required parental consent must be determined through
+  qualified review for the chosen audience and jurisdictions.
+
+### Alternatives considered
+
+- **Give every child independent email/phone-based credentials:** Could
+  provide direct child sign-in, but assumes contact details and creates
+  additional collection, age-policy, consent, and recovery questions.
+  Not selected as the default recommendation; revisit only with explicit
+  product and privacy approval.
+- **Have children use a parent's credentials or session:** Reduces
+  setup steps but conflates adult and child authority, exposes adult
+  account access, and makes revocation and attribution harder. Not
+  recommended.
+- **Allow child access without a distinct server-validated identity or
+  relationship scope:** Could simplify the client, but cannot reliably
+  enforce the privacy and authorization requirements. Not recommended.
+- **Select an identity provider or verification vendor now:** Would
+  prematurely decide provider, jurisdiction, and data-processing
+  questions that are outside this story. Deferred.
+
+### Rationale and tradeoffs
+
+Separating the adult sign-in identity from child-facing profiles aligns
+with the documented parent-mediated setup while avoiding an unsupported
+assumption that children have personal contact details. A distinct
+child-scoped access context supports the child's primary request flow
+without treating a parent session as child authentication. This approach
+still requires a safe, usable way to provision, recover, and revoke child
+device access, and the proposed profile model may need revision after
+the target audience and applicable obligations are established.
+
+### Consequences
+
+- Backend authorization must distinguish authenticated adult accounts,
+  child profiles, and approved family relationships; client role labels
+  are presentation data, not authority.
+- Linking, consent, session, and recovery workflows need approved rules
+  before their implementation. No authentication package, provider,
+  database schema, or credential flow is selected by this ADR.
+- Product and qualified legal/privacy review are release dependencies.
+  This ADR does not claim compliance with COPPA or any other law.
+
+### Open decisions requiring approval
+
+1. What target ages, launch jurisdictions, and age-assurance approach
+   are appropriate? What laws, app-store rules, and qualified review
+   apply?
+2. What adult identity, guardian verification, family-linking, and
+   consent process is sufficient? How are multiple guardians added and
+   removed, and what evidence—if any—establishes authority?
+3. Which provider, sign-in factors, session lifetime, re-authentication,
+   and account-recovery process should be used?
+4. How is child device access provisioned, restored, and revoked? Must
+   the MVP support shared devices, multiple child devices, or multiple
+   child profiles on one device?
+5. Under what audience or circumstances, if any, should a child have
+   independent credentials?
+6. What child and family data is retained, for how long, and how are
+   account deletion, relationship removal, support, and recovery handled?
