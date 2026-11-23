@@ -1,7 +1,8 @@
 # Backend API
 
 The API is a NestJS application with health endpoints, a request-validation
-example endpoint, and a PostgreSQL persistence example.
+example endpoint, an approved family-relationship model, and a PostgreSQL
+persistence example.
 
 ## Backend organization
 
@@ -76,9 +77,10 @@ The `esbuild` override in `package.json` ensures that Drizzle Kit's transitive
 override, that dependency resolves to esbuild `0.24.2`, which is affected by
 [GHSA-67mh-4wv8-2f99](https://github.com/advisories/GHSA-67mh-4wv8-2f99).
 
-The persistence-example feature demonstrates the application-owned repository
-port and its PostgreSQL adapter. It is an infrastructure proof only; it does
-not add product workflows or future domain tables.
+The family-relationships feature represents approved parent-account and
+child-profile relationships. It does not implement identity verification,
+family-linking workflows, or authentication. The persistence-example feature
+demonstrates the application-owned repository port and its PostgreSQL adapter.
 
 `npm run test:integration` requires `DATABASE_URL` and fails with a clear
 message if it is missing. The regular `npm test` command may skip the
